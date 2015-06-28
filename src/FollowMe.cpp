@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <cstring>
 #include <cassert>
+#include <opencv2/core/core.hpp>
 
 using namespace mraa;
 
@@ -15,6 +16,8 @@ const int CHUNK_SIZE = 20 * LINE_SIZE;
 const int FRAME_SIZE = SCAN_LINES * LINE_SIZE;
 
 const int MAX_SCAN_LINES = 200;
+
+cv::Mat mat;
 
 Spi *spi;
 Gpio *chipSelect;

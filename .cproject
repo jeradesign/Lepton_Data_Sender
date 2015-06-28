@@ -25,6 +25,12 @@
 							<tool id="com.intel.iotdevkit.ide.tool.gnu.cross.cpp.compiler.1102452682" name="Cross G++ Compiler" superClass="com.intel.iotdevkit.ide.tool.gnu.cross.cpp.compiler">
 								<option id="gnu.cpp.compiler.option.optimization.level.280182799" name="Optimization Level" superClass="gnu.cpp.compiler.option.optimization.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.debugging.level.1620990444" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
+								<option id="com.intel.iotdevkit.ide.gnu.cpp.option.include.paths.219379987" superClass="com.intel.iotdevkit.ide.gnu.cpp.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="${POKY_HOME}/usr/include/upm"/>
+									<listOptionValue builtIn="false" value="${POKY_HOME}/usr/include/mraa"/>
+									<listOptionValue builtIn="false" value="/opt/local/include/opencv2"/>
+								</option>
+								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.297037666" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="com.intel.iotdevkit.ide.tool.gnu.cross.c.linker.375439247" name="Cross GCC Linker" superClass="com.intel.iotdevkit.ide.tool.gnu.cross.c.linker">
 								<inputType id="cdt.managedbuild.tool.gnu.c.linker.input.716010251" superClass="cdt.managedbuild.tool.gnu.c.linker.input">
@@ -32,7 +38,20 @@
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
 								</inputType>
 							</tool>
-							<tool id="com.intel.iotdevkit.ide.tool.gnu.cross.cpp.linker.1756197722" name="Cross G++ Linker" superClass="com.intel.iotdevkit.ide.tool.gnu.cross.cpp.linker"/>
+							<tool id="com.intel.iotdevkit.ide.tool.gnu.cross.cpp.linker.1756197722" name="Cross G++ Linker" superClass="com.intel.iotdevkit.ide.tool.gnu.cross.cpp.linker">
+								<option id="gnu.cpp.link.option.paths.221880207" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
+									<listOptionValue builtIn="false" value="/proj/libraries/edison"/>
+								</option>
+								<option id="gnu.cpp.link.option.libs.36089988" superClass="gnu.cpp.link.option.libs" valueType="libs">
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="opencv_objdetect"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="opencv_imgproc"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="opencv_core"/>
+								</option>
+								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1995585404" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
+									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
+									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
+								</inputType>
+							</tool>
 							<tool id="com.intel.iotdevkit.ide.gnu.generic.tool.archiver.1694995870" name="Generic Cross GCC Archiver" superClass="com.intel.iotdevkit.ide.gnu.generic.tool.archiver"/>
 							<tool id="com.intel.iotdevkit.ide.gnu.generic.tool.assembler.899293419" name="Generic Cross GCC Assembler" superClass="com.intel.iotdevkit.ide.gnu.generic.tool.assembler">
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.401573514" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
@@ -70,6 +89,7 @@
 							<tool id="com.intel.iotdevkit.ide.tool.gnu.cross.cpp.compiler.663416006" name="Cross G++ Compiler" superClass="com.intel.iotdevkit.ide.tool.gnu.cross.cpp.compiler">
 								<option id="gnu.cpp.compiler.option.optimization.level.561242594" name="Optimization Level" superClass="gnu.cpp.compiler.option.optimization.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.optimization.level.most" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.debugging.level.109192169" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.debugging.level.none" valueType="enumerated"/>
+								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.746575838" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="com.intel.iotdevkit.ide.tool.gnu.cross.c.linker.116509295" name="Cross GCC Linker" superClass="com.intel.iotdevkit.ide.tool.gnu.cross.c.linker">
 								<inputType id="cdt.managedbuild.tool.gnu.c.linker.input.253469815" superClass="cdt.managedbuild.tool.gnu.c.linker.input">
@@ -77,7 +97,12 @@
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
 								</inputType>
 							</tool>
-							<tool id="com.intel.iotdevkit.ide.tool.gnu.cross.cpp.linker.884185359" name="Cross G++ Linker" superClass="com.intel.iotdevkit.ide.tool.gnu.cross.cpp.linker"/>
+							<tool id="com.intel.iotdevkit.ide.tool.gnu.cross.cpp.linker.884185359" name="Cross G++ Linker" superClass="com.intel.iotdevkit.ide.tool.gnu.cross.cpp.linker">
+								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.412938854" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
+									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
+									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
+								</inputType>
+							</tool>
 							<tool id="com.intel.iotdevkit.ide.gnu.generic.tool.archiver.336758593" name="Generic Cross GCC Archiver" superClass="com.intel.iotdevkit.ide.gnu.generic.tool.archiver"/>
 							<tool id="com.intel.iotdevkit.ide.gnu.generic.tool.assembler.1938141918" name="Generic Cross GCC Assembler" superClass="com.intel.iotdevkit.ide.gnu.generic.tool.assembler">
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1249110900" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
@@ -95,6 +120,7 @@
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
 		<project id="FollowMe.com.intel.iotdevkit.target.gnu.cross.exe.213534395" name="Executable" projectType="com.intel.iotdevkit.target.gnu.cross.exe"/>
 	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 	<storageModule moduleId="scannerConfiguration">
 		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
 		<scannerConfigBuildInfo instanceId="com.intel.iotdevkit.ide.config.cross.exe.release.661167637;com.intel.iotdevkit.ide.config.cross.exe.release.661167637.;com.intel.iotdevkit.ide.tool.gnu.cross.c.compiler.1977439005;cdt.managedbuild.tool.gnu.c.compiler.input.1264398252">
@@ -103,6 +129,8 @@
 		<scannerConfigBuildInfo instanceId="com.intel.iotdevkit.ide.config.gnu.cross.exe.debug.221180062;com.intel.iotdevkit.ide.config.gnu.cross.exe.debug.221180062.;com.intel.iotdevkit.ide.tool.gnu.cross.c.compiler.804913619;cdt.managedbuild.tool.gnu.c.compiler.input.1122632064">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
 		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="com.intel.iotdevkit.ide.config.gnu.cross.exe.debug.221180062;com.intel.iotdevkit.ide.config.gnu.cross.exe.debug.221180062.;com.intel.iotdevkit.ide.tool.gnu.cross.cpp.compiler.1102452682;cdt.managedbuild.tool.gnu.cpp.compiler.input.297037666">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
 	</storageModule>
-	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 </cproject>
