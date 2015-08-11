@@ -7,6 +7,11 @@
 #include <cassert>
 #include <opencv2/core/core.hpp>
 
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+
 using namespace mraa;
 using namespace cv;
 
@@ -18,6 +23,9 @@ const int CHUNK_SIZE = 20 * LINE_SIZE;
 const int FRAME_SIZE = SCAN_LINES * LINE_SIZE;
 
 const int MAX_SCAN_LINES = 200;
+
+int socket_fd;
+struct sockaddr_in servaddr;
 
 Spi *spi;
 Gpio *chipSelect;
@@ -54,18 +62,33 @@ void setupSPI()
 	chipSelect->write(0);	// low to select chip
 }
 
+void setupConnection(char *hostname)
+{
+    socket_fd = socket(AF_INET, SOCK_STREAM, 0);
+    bzero(&servaddr, sizeof(servaddr));
+    servaddr.sin_family = AF_INET;
+    servaddr.sin_port = htons(11539);
+    servaddr.sin_addr.s_addr = inet_addr(hostname);
+    connect(socket_fd, (const sockaddr*)&servaddr, sizeof(servaddr));
+}
+
 int processScanLine()
 {
 	spi->transfer(sendLine, recvLine, LINE_SIZE);
 	return 256 * recvLine[0] + recvLine[1];
 }
 
-int main()
+int main(int argc, char **argv)
 {
+	if (argc < 2) {
+		return -1;
+	}
+
+	setupConnection(argv[1]);
+
 	setupSPI();
 
 	for (;;) {
-		printf("\033[1;1H");
 		int i = 0;
 		int result;
 		do {
@@ -92,23 +115,7 @@ int main()
 		assert(paranoia5[0] == 0xa5);
 		assert(paranoia5[1] == 0x5a);
 
-		cv::Mat img(SCAN_LINES, SCAN_COLUMNS, CV_16UC1, recvFrame + 4, LINE_SIZE);
-
-//		printf("mraa_result = %d\n", mraaResult);
-
-		static char *charArray = "01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%^&*()";
-
-		for (int k = 0; k < SCAN_LINES; k++) {
-			for (int m = 0; m < SCAN_COLUMNS; m++) {
-				//			printf("k = %d, m = %d\n", k, m);
-//				fflush(stdout);
-				uint8_t c = (img.at<uint16_t>(k, m) >> 8) & 0x3f;
-				printf("%c", charArray[c]);
-//				fflush(stdout);
-			}
-//			printf("\n");
-//			fflush(stdout);
-		}
+		write(socket_fd, recvFrame, FRAME_SIZE);
 	}
 }
 
