@@ -12,6 +12,8 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
+#define LOG_SPI_DATA 0
+
 using namespace mraa;
 using namespace cv;
 
@@ -58,8 +60,10 @@ void setupSPI()
 	spi->bitPerWord(8);
 
 	chipSelect->write(1);	// deselect chip
-	usleep(200000);
+	fprintf(stderr, "deselect chip\n");
+	usleep(500000);
 	chipSelect->write(0);	// low to select chip
+	fprintf(stderr, "select chip\n");
 }
 
 void setupConnection(char *hostname)
@@ -78,6 +82,27 @@ int processScanLine()
 	return 256 * recvLine[0] + recvLine[1];
 }
 
+bool checkFrame()
+{
+	  for (int i = 0; i < SCAN_LINES; i++) {
+	    int rowNumber = 256 * (0x0f & recvFrame[i * LINE_SIZE]) + (0xff & recvFrame[i * LINE_SIZE + 1]);
+	    if (rowNumber != i) {
+	      printf("bad rowNumber. expected %d, got %d\n", i, rowNumber);
+//	  	chipSelect->write(1);	// deselect chip
+//	  	fprintf(stderr, "deselect chip\n");
+//	  	usleep(500000);
+//	  	chipSelect->write(0);	// low to select chip
+//	  	fprintf(stderr, "select chip\n");
+//	      FILE *fp = fopen("badframe.dat", "wb");
+//	      fwrite(recvFrame, FRAME_SIZE, 1, fp);
+//	      fclose(fp);
+//	      exit(1);
+	      return false;
+	    }
+	  }
+	  return true;
+}
+
 int main(int argc, char **argv)
 {
 	if (argc < 2) {
@@ -88,12 +113,31 @@ int main(int argc, char **argv)
 
 	setupSPI();
 
+#if LOG_SPI_DATA
+	FILE *fp = fopen("spidata.dat", "wb");
+#endif
+
 	for (;;) {
 		int i = 0;
 		int result;
+//		do {
+//			result = processScanLine();
+//			if ((result & 0x0fff) != 0x0fff) {
+//				chipSelect->write(1);	// deselect chip
+//				fprintf(stderr, "deselect chip\n");
+//				usleep(500000);
+//				chipSelect->write(0);	// low to select chip
+//				fprintf(stderr, "select chip\n");
+//			}
+////			scanLines[i++] = result;
+//		} while ((result & 0x0fff) != 0x0fff);
+//
 		do {
 			result = processScanLine();
 			scanLines[i++] = result;
+#if LOG_SPI_DATA
+			fwrite(recvLine, LINE_SIZE, 1, fp);
+#endif
 		} while ((result & 0x0fff) == 0x0fff);
 
 		paranoia5[0] = 0xa5;
@@ -104,16 +148,29 @@ int main(int argc, char **argv)
 		memcpy(recvFrame, recvLine, LINE_SIZE);
 
 		mraa_result_t mraaResult = spi->transfer(sendChunk, recvChunk, CHUNK_SIZE);
+#if LOG_SPI_DATA
+		fwrite(recvChunk, CHUNK_SIZE, 1, fp);
+#endif
 		memcpy(recvFrame + LINE_SIZE, recvChunk, CHUNK_SIZE);
 
 		mraaResult = spi->transfer(sendChunk, recvChunk, CHUNK_SIZE);
+#if LOG_SPI_DATA
+		fwrite(recvChunk, CHUNK_SIZE, 1, fp);
+#endif
 		memcpy(recvFrame + LINE_SIZE + CHUNK_SIZE, recvChunk, CHUNK_SIZE);
 
 		mraaResult = spi->transfer(sendChunk, recvChunk, FRAME_SIZE - 2 * CHUNK_SIZE);
+#if LOG_SPI_DATA
+		fwrite(recvChunk, FRAME_SIZE - 2 * CHUNK_SIZE, 1, fp);
+#endif
 		memcpy(recvFrame + LINE_SIZE + 2 * CHUNK_SIZE, recvChunk, FRAME_SIZE - 2 * CHUNK_SIZE - LINE_SIZE);
 
 		assert(paranoia5[0] == 0xa5);
 		assert(paranoia5[1] == 0x5a);
+
+//		if (!checkFrame()) {
+//			continue;
+//		}
 
 		write(socket_fd, recvFrame, FRAME_SIZE);
 	}
