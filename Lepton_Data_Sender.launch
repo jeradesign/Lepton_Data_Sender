@@ -10,16 +10,16 @@
 <intAttribute key="org.eclipse.cdt.launch.ATTR_BUILD_BEFORE_LAUNCH_ATTR" value="2"/>
 <stringAttribute key="org.eclipse.cdt.launch.DEBUGGER_START_MODE" value="remote"/>
 <booleanAttribute key="org.eclipse.cdt.launch.DEBUGGER_STOP_AT_MAIN" value="true"/>
-<stringAttribute key="org.eclipse.cdt.launch.PROGRAM_NAME" value="Debug/FollowMe"/>
-<stringAttribute key="org.eclipse.cdt.launch.PROJECT_ATTR" value="FollowMe"/>
+<stringAttribute key="org.eclipse.cdt.launch.PROGRAM_NAME" value="Debug/Lepton_Data_Sender"/>
+<stringAttribute key="org.eclipse.cdt.launch.PROJECT_ATTR" value="Lepton_Data_Sender"/>
 <stringAttribute key="org.eclipse.cdt.launch.PROJECT_BUILD_CONFIG_ID_ATTR" value=""/>
 <booleanAttribute key="org.eclipse.cdt.launch.remote.RemoteCDSFDebuggerTab.DEFAULTS_SET" value="true"/>
 <booleanAttribute key="org.eclipse.cdt.launch.use_terminal" value="true"/>
-<stringAttribute key="org.eclipse.debug.core.ATTR_PRERUN_CMDS" value="chmod 755 /home/root/FollowMe"/>
+<stringAttribute key="org.eclipse.debug.core.ATTR_PRERUN_CMDS" value="chmod 755 /home/root/Lepton_Data_Sender"/>
 <booleanAttribute key="org.eclipse.debug.core.ATTR_SKIP_DOWNLOAD_TO_TARGET" value="false"/>
-<stringAttribute key="org.eclipse.debug.core.ATTR_TARGET_PATH" value="/home/root/FollowMe"/>
+<stringAttribute key="org.eclipse.debug.core.ATTR_TARGET_PATH" value="/home/root/Lepton_Data_Sender"/>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
-<listEntry value="/FollowMe"/>
+<listEntry value="/Lepton_Data_Sender"/>
 </listAttribute>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
 <listEntry value="4"/>
