@@ -1,5 +1,9 @@
 #include "mraa.hpp"
-
+//#include "Lepton_I2C.h"
+//#include "LeptonThread.h"
+//#include "LEPTON_SDK.h"
+//#include "LEPTON_SYS.h"
+//#include "LEPTON_Types.h"
 #include <iostream>
 #include <unistd.h>
 #include <stdio.h>
@@ -25,6 +29,7 @@ const int CHUNK_SIZE = 20 * LINE_SIZE;
 const int FRAME_SIZE = SCAN_LINES * LINE_SIZE;
 
 const int MAX_SCAN_LINES = 200;
+//LEP_CAMERA_PORT_DESC_T _port;
 
 int socket_fd;
 struct sockaddr_in servaddr;
@@ -48,6 +53,7 @@ uint8_t paranoia7[CHUNK_SIZE];
 
 int scanLines[MAX_SCAN_LINES];
 
+
 void setupSPI()
 {
 	chipSelect = new Gpio(10);
@@ -55,16 +61,17 @@ void setupSPI()
 
 	spi = new mraa::Spi(5);	// bus 5 for edison
 	spi->mode(SPI_MODE3);
-	spi->frequency(12000000);
+	spi->frequency(6250000);
 	spi->lsbmode(0);
 	spi->bitPerWord(8);
 
 	chipSelect->write(1);	// deselect chip
 	fprintf(stderr, "deselect chip\n");
-	usleep(500000);
+	usleep(200000);
 	chipSelect->write(0);	// low to select chip
 	fprintf(stderr, "select chip\n");
 }
+
 
 void setupConnection(char *hostname)
 {
@@ -74,6 +81,7 @@ void setupConnection(char *hostname)
     servaddr.sin_port = htons(11539);
     servaddr.sin_addr.s_addr = inet_addr(hostname);
     connect(socket_fd, (const sockaddr*)&servaddr, sizeof(servaddr));
+
 }
 
 int processScanLine()
@@ -81,6 +89,24 @@ int processScanLine()
 	spi->transfer(sendLine, recvLine, LINE_SIZE);
 	return 256 * recvLine[0] + recvLine[1];
 }
+/*bool _connected;
+
+
+int lepton_connect() {
+	LEP_OpenPort(1, LEP_CCI_TWI, 400, &_port);
+	_connected = true;
+	return 0;
+}
+
+void lepton_perform_ffc() {
+	if(!_connected) {
+		lepton_connect();
+	}
+	LEP_RunSysFFCNormalization(&_port);
+}
+*/
+
+//presumably more commands could go here if desired
 
 bool checkFrame()
 {
@@ -88,11 +114,11 @@ bool checkFrame()
 	    int rowNumber = 256 * (0x0f & recvFrame[i * LINE_SIZE]) + (0xff & recvFrame[i * LINE_SIZE + 1]);
 	    if (rowNumber != i) {
 	      printf("bad rowNumber. expected %d, got %d\n", i, rowNumber);
-//	  	chipSelect->write(1);	// deselect chip
-//	  	fprintf(stderr, "deselect chip\n");
-//	  	usleep(500000);
-//	  	chipSelect->write(0);	// low to select chip
-//	  	fprintf(stderr, "select chip\n");
+	  	chipSelect->write(1);	// deselect chip
+	  	fprintf(stderr, "deselect chip\n");
+	  	usleep(200000);
+	  	chipSelect->write(0);	// low to select chip
+	  	fprintf(stderr, "select chip\n");
 //	      FILE *fp = fopen("badframe.dat", "wb");
 //	      fwrite(recvFrame, FRAME_SIZE, 1, fp);
 //	      fclose(fp);
@@ -112,7 +138,7 @@ int main(int argc, char **argv)
 	setupConnection(argv[1]);
 
 	setupSPI();
-
+//	lepton_perform_ffc();
 #if LOG_SPI_DATA
 	FILE *fp = fopen("spidata.dat", "wb");
 #endif
@@ -168,9 +194,9 @@ int main(int argc, char **argv)
 		assert(paranoia5[0] == 0xa5);
 		assert(paranoia5[1] == 0x5a);
 
-//		if (!checkFrame()) {
-//			continue;
-//		}
+		if (!checkFrame()) {
+			continue;
+		}
 
 		write(socket_fd, recvFrame, FRAME_SIZE);
 	}
