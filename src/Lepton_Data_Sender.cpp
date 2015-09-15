@@ -55,13 +55,13 @@ void setupSPI()
 
 	spi = new mraa::Spi(5);	// bus 5 for edison
 	spi->mode(SPI_MODE3);
-	spi->frequency(12000000);
+	spi->frequency(6250000);
 	spi->lsbmode(0);
 	spi->bitPerWord(8);
 
 	chipSelect->write(1);	// deselect chip
 	fprintf(stderr, "deselect chip\n");
-	usleep(500000);
+	usleep(200000);
 	chipSelect->write(0);	// low to select chip
 	fprintf(stderr, "select chip\n");
 }
@@ -88,11 +88,11 @@ bool checkFrame()
 	    int rowNumber = 256 * (0x0f & recvFrame[i * LINE_SIZE]) + (0xff & recvFrame[i * LINE_SIZE + 1]);
 	    if (rowNumber != i) {
 	      printf("bad rowNumber. expected %d, got %d\n", i, rowNumber);
-//	  	chipSelect->write(1);	// deselect chip
-//	  	fprintf(stderr, "deselect chip\n");
-//	  	usleep(500000);
-//	  	chipSelect->write(0);	// low to select chip
-//	  	fprintf(stderr, "select chip\n");
+	  	chipSelect->write(1);	// deselect chip
+	  	fprintf(stderr, "deselect chip\n");
+	  	usleep(200000);
+	  	chipSelect->write(0);	// low to select chip
+	  	fprintf(stderr, "select chip\n");
 //	      FILE *fp = fopen("badframe.dat", "wb");
 //	      fwrite(recvFrame, FRAME_SIZE, 1, fp);
 //	      fclose(fp);
@@ -168,9 +168,9 @@ int main(int argc, char **argv)
 		assert(paranoia5[0] == 0xa5);
 		assert(paranoia5[1] == 0x5a);
 
-//		if (!checkFrame()) {
-//			continue;
-//		}
+		if (!checkFrame()) {
+			continue;
+		}
 
 		write(socket_fd, recvFrame, FRAME_SIZE);
 	}
