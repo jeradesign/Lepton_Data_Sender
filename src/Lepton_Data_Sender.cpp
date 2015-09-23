@@ -5,7 +5,6 @@
 #include <stdio.h>
 #include <cstring>
 #include <cassert>
-#include <opencv2/core/core.hpp>
 
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -15,7 +14,6 @@
 #define LOG_SPI_DATA 0
 
 using namespace mraa;
-using namespace cv;
 
 const int LINE_SIZE = 164;
 const int PAYLOAD_SIZE = 160;

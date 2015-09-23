@@ -28,7 +28,6 @@
 								<option id="com.intel.iotdevkit.ide.gnu.cpp.option.include.paths.219379987" name="Include paths (-I)" superClass="com.intel.iotdevkit.ide.gnu.cpp.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="${POKY_HOME}/usr/include/upm"/>
 									<listOptionValue builtIn="false" value="${POKY_HOME}/usr/include/mraa"/>
-									<listOptionValue builtIn="false" value="/opt/local/include/opencv2"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.297037666" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
@@ -39,14 +38,8 @@
 								</inputType>
 							</tool>
 							<tool id="com.intel.iotdevkit.ide.tool.gnu.cross.cpp.linker.1756197722" name="Cross G++ Linker" superClass="com.intel.iotdevkit.ide.tool.gnu.cross.cpp.linker">
-								<option id="gnu.cpp.link.option.paths.221880207" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
-									<listOptionValue builtIn="false" value="/proj/libraries/edison"/>
-								</option>
-								<option id="gnu.cpp.link.option.libs.36089988" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="opencv_objdetect"/>
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="opencv_imgproc"/>
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="opencv_core"/>
-								</option>
+								<option id="gnu.cpp.link.option.paths.221880207" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths"/>
+								<option id="gnu.cpp.link.option.libs.36089988" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1995585404" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
