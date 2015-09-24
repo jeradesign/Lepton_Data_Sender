@@ -1,5 +1,3 @@
-#define LOG_SPI_DATA 0
-
 #include <iostream>
 #include <unistd.h>
 #include <stdio.h>
@@ -39,9 +37,6 @@ int main(int argc, char **argv)
 
 	for (;;) {
         uint8_t *frame = nextFrame();
-#if LOG_SPI_DATA
-        fwrite(frame, FRAME_SIZE, 1, fp);
-#endif
         if (!checkFrame()) {
             continue;
         }
