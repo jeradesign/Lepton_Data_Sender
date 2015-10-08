@@ -198,7 +198,7 @@ uint8_t *nextFrame() {
 
     memcpy(recvFrame, recvLine, LINE_SIZE);
 
-    mraa::Result mraaResult = spi->transfer(sendChunk, recvChunk, CHUNK_SIZE);
+    int mraaResult = spi->transfer(sendChunk, recvChunk, CHUNK_SIZE);
 #if LOG_SPI_DATA
     fwrite(recvChunk, CHUNK_SIZE, 1, fp);
 #endif
