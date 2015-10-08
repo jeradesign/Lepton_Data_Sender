@@ -33,7 +33,7 @@ int main(int argc, char **argv)
 
 	setupConnection(argv[1]);
 
-	setupSPI();
+	setupLepton();
 
 	for (;;) {
         uint8_t *frame = nextFrame();
